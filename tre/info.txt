@@ -1,0 +1,2 @@
+Place your *.tre in this folder. Otherwise change the path in docker-compose.yaml 
+to location of your *.tre files.

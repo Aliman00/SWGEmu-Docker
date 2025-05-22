@@ -1,0 +1,55 @@
+
+services:
+  swgemu-core3:
+    build: # Comment out or remove the build section
+      context: .
+      dockerfile: Dockerfile
+    container_name: swgemu-server
+    ports:
+      - "44453:44453"  # Login Server
+      - "44454:44454"  # Zone Server
+      - "44455:44455"  # Ping Server
+      - "44463:44463"  # Status Server
+      - "44443:44443"  # Admin Server
+    volumes:
+      - ./conf/config.lua:/app/Core3/MMOCoreORB/bin/conf/config.lua:ro
+      - ./tre:/app/tre:ro
+      - swgemu-logs:/app/Core3/MMOCoreORB/bin/log
+      - swgemu-db:/app/Core3/MMOCoreORB/bin/databases 
+    environment:
+      - TRE_PATH=/app/tre
+      - CONFIG_PATH=/app/Core3/MMOCoreORB/bin/conf
+    restart: unless-stopped
+    networks:
+      - swgemu-network
+
+  # Database service (optional)
+  # Uncomment if you want to use MySQL
+  # mysql:
+  #   image: mysql:8.0
+  #   container_name: swgemu-mysql
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: swgemu_root
+  #     MYSQL_DATABASE: swgemu
+  #     MYSQL_USER: swgemu
+  #     MYSQL_PASSWORD: swgemu_pass
+  #   volumes:
+  #     - mysql-data:/var/lib/mysql
+  #     - ./conf/mysql-init:/docker-entrypoint-initdb.d:ro
+  #   ports:
+  #     - "3306:3306"
+  #   restart: unless-stopped
+  #   networks:
+  #     - swgemu-network
+
+volumes:
+  swgemu-logs:
+    driver: local
+  swgemu-db:
+    driver: local
+  # mysql-data:
+  #   driver: local
+
+networks:
+  swgemu-network:
+    driver: bridge
