@@ -13,7 +13,7 @@ Nix is **not** required on your host system to build or run the server using Doc
 
 1.  **Clone the Repository (if you haven't already):**
     ```bash
-    git clone <your-repository-url>
+    git clone https://github.com/Aliman00/SWGEmu-Docker
     cd SWGEmu-Docker
     ```
 
